@@ -1,0 +1,113 @@
+GROUP_ID = 194984043
+TOKEN = ''
+TOKEN_AVIASALES = ''
+
+INTENTS = [
+    {
+        'name': 'авибилеты',
+        'tokens': ("билет", "заказ", "рейс"),
+        'scenario': 'air_flight_ticket',
+        'answer': None
+    }
+]
+
+SCENARIOS = {
+    'air_flight_ticket': {
+        'first_step': 'step1',
+        'steps': {
+            'step1': {
+                'text': f'Введите название города, откуда будет вылет.',
+                'failure_text': 'Название города должно быть в именительном падеже, и не должно содержать цифр, '
+                                'а также спецсимволов',
+                'handler': 'handle_city',
+                'half_step': 'half_step1',
+                'request': None,
+                'next_step': 'step2'
+            },
+            'half_step1': {
+                'failure_text': 'Введите порядковый номер, необходимой страны',
+                'handler': 'choose_city',
+                'request': None,
+                'next_step': 'step2'
+            },
+            'step2': {
+                'text': 'Введите название города, куда вы летите.',
+                'failure_text': 'Название города должно быть в именительном падеже, и не должно содержать цифр, '
+                                'а также спецсимволов',
+                'handler': 'handle_city',
+                'request': 'get_response',
+                'half_step': 'half_step2',
+                'next_step': 'step3'
+            },
+            'half_step2': {
+                'failure_text': 'Введите порядковый номер, необходимой страны',
+                'handler': 'choose_city',
+                'request': 'get_response',
+                'next_step': 'step3'
+            },
+            'step3': {
+                'text': 'Напишите дату в формате ГГГГ-ММ-ДД.',
+                'failure_text': 'Дата должна быть в формате ГГГГ-ММ-ДД, либо ГГГГ.ММ.ДД',
+                'handler': 'get_date',
+                'half_step': 'half_step3',
+                'request': None,
+                'next_step': 'step4'
+            },
+            'half_step3': {
+                'failure_text': 'Введите порядковый номер, необходимой даты',
+                'handler': 'choose_date',
+                'request': None,
+                'next_step': 'step4'
+            },
+            'step4': {
+                'text': 'Напишите количество посадочных мест.',
+                'failure_text': 'Введите число',
+                'handler': 'show_ticket_information',
+                'half_step': 'half_step4',
+                'request': None,
+                'next_step': 'half_step4'
+            },
+            'half_step4': {
+                'failure_text': 'Напишите только 1 слово, без цифр и специальных символов.',
+                'handler': 'admit_data',
+                'half_step': 'half_step5',
+                'request': None,
+                'next_step': 'step6'
+            },
+            'half_step5': {
+                'failure_text': 'Напишите только 1 слово, без цифр и специальных символов.',
+                'handler': 'restart',
+                'half_step': None,
+                'request': None,
+                'next_step': 'step1'
+            },
+            'step6': {
+                'text': f'Введите номер телефона.',
+                'failure_text': 'Номер телефона должен состоять из 11 цифр, и не должен содержать буквы и спецсимволы.',
+                'handler': 'handle_phone',
+                'half_step': None,
+                'request': None,
+                'next_step': 'step7'
+            },
+            'step7': {
+                'text': f'Данные отправлены на обработку.\nС вами свяжутся для уточнения деталей.',
+                'failure_text': None,
+                'handler': None,
+                'half_step': None,
+                'request': None,
+                'next_step': None
+            },
+        }
+    }
+}
+
+DEFAULT_ANSWER = 'Не знаю, как на это ответить. ' \
+                 'Но могу сказать когда и где пройдет конференция, а также зарегестрировать вас. Просто спросите.'
+
+DB_CONGIG = {
+    provider='postgres',
+    user='postgres',
+    password='124356',
+    host='localhost',
+    database='ordering_tickets_chatbot'
+}
