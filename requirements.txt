@@ -7,7 +7,7 @@ pygame==1.9.6
 requests==2.23.0
 simple-draw==2.6.6
 six==1.14.0
-urllib3==1.25.9
+urllib3==1.26.5
 vk-api==11.8.0
 pony==0.7.13
 psycopg2==2.8.5
